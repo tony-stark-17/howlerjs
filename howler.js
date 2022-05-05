@@ -2122,7 +2122,13 @@
       // Setup the buffer source for playback.
       sound._node.bufferSource = Howler.ctx.createBufferSource();
       sound._node.bufferSource.buffer = cache[self._src];
-
+       if (sound._panner) {
+          sound._fxInsertOut.connect(sound._panner);
+        } else {
+          sound._fxInsertOut.connect(sound._node);
+        }
+        // on initialization, connect input to output
+        sound._fxInsertIn.connect(sound._fxInsertOut);
       sound._node.bufferSource.connect(sound._fxInsertIn);
       sound._node.bufferSource.connect(sound._fxSend);
 
